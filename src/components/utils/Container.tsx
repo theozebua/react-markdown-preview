@@ -1,9 +1,10 @@
-import { ReactNode } from 'react'
+import { ReactNode } from "react";
 
 interface Props {
-  children: ReactNode
+	children: ReactNode;
+	className?: String;
 }
 
-export default function Container({ children }: Props): JSX.Element {
-  return <div className='container mx-auto p-4'>{children}</div>
+export default function Container({ children, className }: Props): JSX.Element {
+	return <div className={`container mx-auto p-4 ${className}`}>{children}</div>;
 }
