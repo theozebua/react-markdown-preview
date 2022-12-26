@@ -13,3 +13,9 @@
     @apply bg-gray-100 text-gray-900;
   }
 }
+
+@layer components {
+  .btn-tools {
+    @apply hover:bg-gray-200 p-4;
+  }
+}
