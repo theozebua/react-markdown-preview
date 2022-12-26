@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 interface Props {
 	children: ReactNode;
-	className?: String;
+	className?: string;
 }
 
 export default function Container({ children, className }: Props): JSX.Element {
