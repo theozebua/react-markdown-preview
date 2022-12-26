@@ -10,7 +10,7 @@ export default function AppLayout({ children }: Props): JSX.Element {
 	return (
 		<div className="min-h-screen flex flex-col">
 			<Navbar />
-			{children}
+			<main>{children}</main>
 			<Footer />
 		</div>
 	);
