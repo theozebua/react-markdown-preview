@@ -55,19 +55,19 @@ export default function App(): JSX.Element {
 
 	return (
 		<Container className="mb-16">
-			<div className="min-w-full text-center mt-4 mb-16">
-				<h1 className="font-extrabold lg:text-6xl text-4xl md:text-5xl mb-4">
+			<div className="mt-4 mb-16 min-w-full text-center">
+				<h1 className="mb-4 text-4xl font-extrabold md:text-5xl lg:text-6xl">
 					Markdown Preview
 				</h1>
 				<p className="md:text-lg lg:text-xl">
 					Preview your markdown before committing it.
 				</p>
 			</div>
-			<div className="mb-4 flex gap-4 md:flex-row flex-col">
-				<button className="bg-white shadow max-w-fit hover:bg-gray-200 rounded p-4">
-					<WrenchScrewdriverIcon className="w-6 h-6" />
+			<div className="mb-4 flex flex-col gap-4 md:flex-row">
+				<button className="max-w-fit rounded bg-white p-4 shadow hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700">
+					<WrenchScrewdriverIcon className="h-6 w-6" />
 				</button>
-				<div className="grid grid-cols-6 rounded shadow gap-y-4 max-w-fi bg-white">
+				<div className="max-w-fi grid grid-cols-6 gap-y-4 rounded bg-white shadow">
 					<button className="btn-tools">
 						<FontAwesomeIcon icon={faBold} />
 					</button>
@@ -88,10 +88,10 @@ export default function App(): JSX.Element {
 					</button>
 				</div>
 			</div>
-			<div className="flex gap-x-4 flex-col gap-y-4 lg:flex-row">
+			<div className="flex flex-col gap-4 lg:flex-row">
 				<Section>
 					<textarea
-						className="w-full whitespace-nowrap lg:min-h-screen form-textarea rounded border-gray-300 focus:border-gray-400 focus:ring-gray-400"
+						className="form-textarea w-full whitespace-nowrap rounded border-gray-300 focus:border-gray-400 focus:ring-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:focus:border-gray-600 dark:focus:ring-gray-600 lg:min-h-screen"
 						ref={textarea}
 						autoFocus={true}
 						onChange={(e) => setMarkdownInput(e.target.value)}
@@ -99,7 +99,7 @@ export default function App(): JSX.Element {
 				</Section>
 				<Section>
 					<div
-						className="prose prose-sky break-words prose-a:inline-block dark:prose-invert prose-headings:border-b-2 prose-headings:pb-4"
+						className="prose prose-sky break-words prose-headings:border-b-2 prose-headings:pb-4 prose-a:inline-block dark:prose-invert dark:prose-headings:border-b-gray-300 dark:prose-headings:text-gray-300"
 						ref={div}
 					></div>
 				</Section>

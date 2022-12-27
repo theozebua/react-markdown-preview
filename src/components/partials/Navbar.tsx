@@ -3,17 +3,19 @@ import Container from "../utils/Container";
 
 export default function Navbar(): JSX.Element {
 	return (
-		<nav className="bg-white shadow lg:py-2">
+		<nav className="bg-white shadow dark:bg-gray-800 lg:py-2">
 			<Container>
 				<div className="flex items-center justify-between">
 					<span className="font-bold md:text-xl lg:text-3xl">
 						Markdown Preview
 					</span>
 					<div className="flex gap-x-4">
-						<MoonIcon className="w-6 h-6" />
+						<button>
+							<MoonIcon className="h-6 w-6" />
+						</button>
 						{/* <SunIcon className='w-6 h-6' /> */}
 						<svg
-							className="h-6 w-6 fill-gray-900"
+							className="h-6 w-6 fill-black dark:fill-gray-300"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 24 24"
 						>

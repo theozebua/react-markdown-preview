@@ -10,16 +10,16 @@
   }
 
   body {
-    @apply bg-gray-100 text-gray-900;
+    @apply bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-300;
   }
 
   .prose :not(pre) > code {
-    @apply bg-gray-200 text-sky-600 px-1 py-0.5 rounded before:content-[''] after:content-[''];
+    @apply rounded bg-gray-200 px-1 py-0.5 text-sky-600 before:content-[''] after:content-[''];
   }
 }
 
 @layer components {
   .btn-tools {
-    @apply hover:bg-gray-200 p-4;
+    @apply p-4 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700;
   }
 }

@@ -2,7 +2,7 @@ import Container from "../utils/Container";
 
 export default function Footer(): JSX.Element {
 	return (
-		<footer className="bg-white shadow mt-auto lg:py-2">
+		<footer className="mt-auto bg-white shadow dark:bg-gray-800 lg:py-2">
 			<Container>
 				<div className="flex flex-col gap-y-4 lg:flex-row lg:justify-between">
 					<span className="text-center md:text-lg lg:text-xl">

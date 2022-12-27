@@ -7,7 +7,9 @@ interface Props {
 
 export default function Section({ children, className }: Props): JSX.Element {
 	return (
-		<section className={`bg-white w-full shadow p-4 rounded ${className}`}>
+		<section
+			className={`w-full rounded bg-white p-4 shadow dark:bg-gray-800 ${className}`}
+		>
 			{children}
 		</section>
 	);

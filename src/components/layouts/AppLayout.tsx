@@ -8,7 +8,7 @@ interface Props {
 
 export default function AppLayout({ children }: Props): JSX.Element {
 	return (
-		<div className="min-h-screen flex flex-col">
+		<div className="flex min-h-screen flex-col">
 			<Navbar />
 			<main>{children}</main>
 			<Footer />
