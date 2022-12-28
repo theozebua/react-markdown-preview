@@ -99,7 +99,7 @@ export default function App(): JSX.Element {
 				</Section>
 				<Section>
 					<div
-						className="prose prose-sky break-words prose-headings:border-b-2 prose-headings:pb-4 prose-a:inline-block dark:prose-invert dark:prose-headings:border-b-gray-300 dark:prose-headings:text-gray-300"
+						className="prose prose-sky min-w-full break-words prose-headings:border-b-2 prose-headings:pb-4 prose-a:inline-block dark:prose-invert dark:prose-headings:border-b-gray-300 dark:prose-headings:text-gray-300"
 						ref={div}
 					></div>
 				</Section>
