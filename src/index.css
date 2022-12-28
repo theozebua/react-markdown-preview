@@ -28,6 +28,18 @@
 }
 
 @layer components {
+  .tools {
+    @apply grid max-w-fit grid-cols-6 gap-y-4 rounded bg-white shadow transition;
+  }
+
+  .tools.show {
+    @apply opacity-100;
+  }
+
+  .tools.hide {
+    @apply invisible opacity-0;
+  }
+
   .btn-tools {
     @apply p-4 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700;
   }
