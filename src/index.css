@@ -10,16 +10,29 @@
   }
 
   body {
-    @apply bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-300;
+    @apply bg-gray-100 text-gray-900 transition dark:bg-gray-900 dark:text-gray-300;
   }
 
   .prose :not(pre) > code {
     @apply rounded bg-gray-200 px-1 py-0.5 text-sky-600 before:content-[''] after:content-[''];
+  }
+
+  @keyframes spin {
+    from {
+      rotate: 0deg;
+    }
+    to {
+      rotate: 360deg;
+    }
   }
 }
 
 @layer components {
   .btn-tools {
     @apply p-4 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700;
+  }
+
+  .btn-toggle-dark-mode {
+    animation: spin 700ms forwards;
   }
 }
