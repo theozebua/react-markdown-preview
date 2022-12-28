@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
-import { useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { Remarkable } from "remarkable";
 import hljs from "highlight.js";
 import Container from "./components/utils/Container";
@@ -16,6 +16,7 @@ import Section from "./components/utils/Section";
 
 export default function App(): JSX.Element {
 	const [markdownInput, setMarkdownInput] = useState("");
+	const [showTools, setShowTools] = useState(false);
 	const div = useRef<HTMLDivElement>(null);
 	const textarea = useRef<HTMLTextAreaElement>(null);
 
@@ -48,6 +49,63 @@ export default function App(): JSX.Element {
 		textarea.current!.style.height = `${textarea.current!.scrollHeight + 20}px`;
 	};
 
+	const useTool = (e: MouseEvent, type: string) => {
+		e.preventDefault();
+		textarea.current!.focus();
+
+		const start = textarea.current!.selectionStart;
+		const end = textarea.current!.selectionEnd;
+		let value = textarea.current!.value.substring(start, end);
+
+		if (start === end) {
+			alert("No text selected.");
+			return;
+		}
+
+		convert(start, end, value, type);
+	};
+
+	const convert = (start: number, end: number, value: string, type: string) => {
+		let convertedValue: string = "";
+
+		switch (type) {
+			case "bold":
+				convertedValue = `**${value}**`;
+				break;
+
+			case "italic":
+				convertedValue = `_${value}_`;
+				break;
+
+			case "underline":
+				convertedValue = `<ins>${value}</ins>`;
+				break;
+
+			case "strikethrough":
+				convertedValue = `~~${value}~~`;
+				break;
+
+			case "quote":
+				convertedValue = `> ${value}`;
+				break;
+
+			case "code":
+				convertedValue = `<code>${value}</code>`;
+				break;
+
+			default:
+				alert(`Type ${type} is unknown.`);
+				break;
+		}
+
+		value = `${textarea.current!.value.substring(
+			0,
+			start
+		)}${convertedValue}${textarea.current!.value.substring(end)}`;
+		textarea.current!.value = value;
+		setMarkdownInput(value);
+	};
+
 	useEffect(() => {
 		parse(markdownInput);
 		resizeTextArea();
@@ -64,27 +122,36 @@ export default function App(): JSX.Element {
 				</p>
 			</div>
 			<div className="mb-4 flex flex-col gap-4 md:flex-row">
-				<button className="max-w-fit rounded bg-white p-4 shadow hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700">
+				<button
+					className="relative max-w-fit rounded bg-white p-4 shadow hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+					onClick={() => setShowTools(!showTools)}
+				>
 					<WrenchScrewdriverIcon className="h-6 w-6" />
 				</button>
-				<div className="max-w-fi grid grid-cols-6 gap-y-4 rounded bg-white shadow">
-					<button className="btn-tools">
+				<div className={`tools ${showTools ? "show" : "hide"}`}>
+					<button className="btn-tools" onClick={(e) => useTool(e, "bold")}>
 						<FontAwesomeIcon icon={faBold} />
 					</button>
-					<button className="btn-tools">
+					<button className="btn-tools" onClick={(e) => useTool(e, "italic")}>
 						<FontAwesomeIcon icon={faItalic} />
 					</button>
-					<button className="btn-tools">
+					<button
+						className="btn-tools"
+						onClick={(e) => useTool(e, "underline")}
+					>
 						<FontAwesomeIcon icon={faUnderline} />
 					</button>
-					<button className="btn-tools">
+					<button
+						className="btn-tools"
+						onClick={(e) => useTool(e, "strikethrough")}
+					>
+						<FontAwesomeIcon icon={faStrikethrough} />
+					</button>
+					<button className="btn-tools" onClick={(e) => useTool(e, "code")}>
 						<FontAwesomeIcon icon={faCode} />
 					</button>
-					<button className="btn-tools">
+					<button className="btn-tools" onClick={(e) => useTool(e, "quote")}>
 						<FontAwesomeIcon icon={faQuoteRight} />
-					</button>
-					<button className="btn-tools">
-						<FontAwesomeIcon icon={faStrikethrough} />
 					</button>
 				</div>
 			</div>
