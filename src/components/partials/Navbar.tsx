@@ -1,7 +1,20 @@
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
 import Container from "../utils/Container";
 
 export default function Navbar(): JSX.Element {
+	const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+	useEffect(() => {
+		if (theme === "dark") {
+			document.documentElement.classList.add("dark");
+		} else {
+			document.documentElement.classList.remove("dark");
+		}
+
+		localStorage.setItem("theme", theme);
+	}, [theme]);
+
 	return (
 		<nav className="bg-white shadow dark:bg-gray-800 lg:py-2">
 			<Container>
@@ -10,10 +23,18 @@ export default function Navbar(): JSX.Element {
 						Markdown Preview
 					</span>
 					<div className="flex gap-x-4">
-						<button>
+						<button
+							className={`${theme === "dark" && "hidden"} btn-toggle-dark-mode`}
+							onClick={() => setTheme("dark")}
+						>
 							<MoonIcon className="h-6 w-6" />
 						</button>
-						{/* <SunIcon className='w-6 h-6' /> */}
+						<button
+							className={`${theme !== "dark" && "hidden"} btn-toggle-dark-mode`}
+							onClick={() => setTheme("light")}
+						>
+							<SunIcon className="h-6 w-6" />
+						</button>
 						<svg
 							className="h-6 w-6 fill-black dark:fill-gray-300"
 							xmlns="http://www.w3.org/2000/svg"
