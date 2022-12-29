@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { Remarkable } from "remarkable";
 import hljs from "highlight.js";
 import Container from "./components/utils/Container";
@@ -106,6 +106,19 @@ export default function App(): JSX.Element {
 		setMarkdownInput(value);
 	};
 
+	const useTab = (e: KeyboardEvent) => {
+		if (e.key === "Tab") {
+			e.preventDefault();
+			const start = textarea.current!.selectionStart;
+			const end = textarea.current!.selectionEnd;
+
+			textarea.current!.value = `${textarea.current!.value.substring(
+				0,
+				start
+			)}\t${textarea.current!.value.substring(end)}`;
+		}
+	};
+
 	useEffect(() => {
 		parse(markdownInput);
 		resizeTextArea();
@@ -188,6 +201,7 @@ export default function App(): JSX.Element {
 						ref={textarea}
 						autoFocus={true}
 						onChange={(e) => setMarkdownInput(e.target.value)}
+						onKeyDown={(e) => useTab(e)}
 					></textarea>
 				</Section>
 				<Section>
