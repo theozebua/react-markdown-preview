@@ -29,22 +29,26 @@
 
 @layer components {
   .tools {
-    @apply grid max-w-fit grid-cols-6 gap-y-4 rounded bg-white shadow transition;
+    @apply max-w-fit grid-cols-6 gap-y-4 rounded bg-white shadow transition;
   }
 
   .tools.show {
-    @apply opacity-100;
+    @apply grid opacity-100;
   }
 
   .tools.hide {
-    @apply invisible opacity-0;
+    @apply pointer-events-none hidden opacity-0;
   }
 
   .btn-tools {
-    @apply p-4 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700;
+    @apply relative p-4 transition hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700;
   }
 
   .btn-toggle-dark-mode {
     animation: spin 700ms forwards;
+  }
+
+  [data-toggle='tooltip'] {
+    @apply before:pointer-events-none before:absolute before:-top-14 before:right-1/2 before:translate-x-1/2 before:rounded before:bg-gray-900/80 before:px-4 before:py-2 before:text-gray-300 before:opacity-0 before:transition before:content-[attr(data-title)] after:pointer-events-none after:absolute after:right-1/2 after:-top-4 after:translate-x-1/2 after:border-l-8 after:border-r-8 after:border-t-8 after:border-l-transparent after:border-r-transparent after:border-t-gray-900/80 after:opacity-0 after:transition after:content-[''] hover:before:opacity-100 hover:after:opacity-100 dark:before:bg-gray-300 dark:before:text-black dark:after:border-t-gray-300;
   }
 }
