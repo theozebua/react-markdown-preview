@@ -14,7 +14,19 @@
   }
 
   .prose :not(pre) > code {
-    @apply rounded bg-gray-200 px-1 py-0.5 text-sky-600 before:content-[''] after:content-[''];
+    @apply rounded bg-gray-200 px-1 py-0.5 before:content-[''] after:content-[''] dark:bg-gray-700;
+  }
+
+  .prose :not(table) > :is(h1, h2, h3, h4, h5, h6, p, blockquote) {
+    @apply m-0 border-b-0 py-0;
+  }
+
+  .prose table tr :is(td, th) {
+    vertical-align: middle;
+  }
+
+  .prose :is(h1, h2) {
+    @apply border-b-2 pb-4 dark:border-b-gray-300;
   }
 
   @keyframes spin {
@@ -28,6 +40,10 @@
 }
 
 @layer components {
+  .markdown {
+    @apply prose prose-sky min-w-full break-words prose-a:inline-block prose-a:no-underline prose-img:inline-block dark:prose-invert dark:prose-headings:text-gray-300;
+  }
+
   .tools {
     @apply max-w-fit grid-cols-6 gap-y-4 rounded bg-white shadow transition;
   }
