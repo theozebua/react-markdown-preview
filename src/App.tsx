@@ -19,7 +19,9 @@ import Modal from "./components/partials/Modal";
 import useMarkdown from "./hooks/useMarkdown";
 
 export default function App(): JSX.Element {
-	const [markdownInput, setMarkdownInput] = useState("");
+	const [markdownInput, setMarkdownInput] = useState(
+		localStorage.getItem("markdown") || ""
+	);
 	const [showTools, setShowTools] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const div = useRef<HTMLDivElement>(null);
@@ -117,10 +119,13 @@ export default function App(): JSX.Element {
 	useEffect(() => {
 		parse(markdownInput);
 		resizeTextArea();
+
+		localStorage.setItem("markdown", markdownInput);
 	}, [markdownInput]);
 
 	useEffect(() => {
 		fetchMarkdownGuide();
+		textarea.current!.value = markdownInput;
 	}, []);
 
 	return (
