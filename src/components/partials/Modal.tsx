@@ -18,7 +18,7 @@ export default function Modal({
 		<>
 			<Overlay showModal={showModal} />
 			<div
-				className={`fixed top-1/2 left-1/2 z-50 flex h-[46rem] max-h-96 w-[64rem] max-w-[90%] -translate-y-1/2 -translate-x-1/2 flex-col rounded bg-white transition duration-300 dark:bg-gray-900 md:max-w-2xl lg:max-h-[46rem] lg:max-w-4xl ${
+				className={`fixed top-1/2 left-1/2 z-50 flex h-[46rem] max-h-96 w-[64rem] max-w-[90%] -translate-y-1/2 -translate-x-1/2 flex-col overflow-hidden rounded bg-white transition duration-300 dark:bg-gray-900 md:max-w-2xl lg:max-h-[46rem] lg:max-w-4xl ${
 					showModal
 						? "pointer-events-auto visible scale-100 opacity-100"
 						: "pointer-events-none invisible scale-50 opacity-0"
