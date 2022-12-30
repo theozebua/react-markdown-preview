@@ -138,7 +138,7 @@ export default function App(): JSX.Element {
 					Preview your markdown before committing it.
 				</p>
 			</div>
-			<div className="mb-4 flex flex-col gap-4 md:flex-row">
+			<div className="sticky top-0 mb-4 flex max-w-fit flex-col gap-4 backdrop-blur-sm md:flex-row">
 				<div className="flex gap-4">
 					<button
 						className="relative max-w-fit rounded bg-white p-4 shadow transition hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
