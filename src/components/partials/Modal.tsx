@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from "react";
 import Overlay from "../utils/Overlay";
 
 interface Props {
@@ -6,6 +6,7 @@ interface Props {
 	header?: ReactNode;
 	footer?: ReactNode;
 	showModal: boolean;
+	setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Modal({
@@ -13,10 +14,21 @@ export default function Modal({
 	header,
 	footer,
 	showModal,
+	setShowModal,
 }: Props): JSX.Element {
+	const overlay = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		overlay.current!.addEventListener("click", () => setShowModal(false));
+		document.addEventListener(
+			"keydown",
+			(e) => e.key === "Escape" && setShowModal(false)
+		);
+	}, []);
+
 	return (
 		<>
-			<Overlay showModal={showModal} />
+			<Overlay refProp={overlay} showModal={showModal} />
 			<div
 				className={`fixed top-1/2 left-1/2 z-50 flex h-[46rem] max-h-96 w-[64rem] max-w-[90%] -translate-y-1/2 -translate-x-1/2 flex-col overflow-hidden rounded bg-white transition duration-300 dark:bg-gray-900 md:max-w-2xl lg:max-h-[46rem] lg:max-w-4xl ${
 					showModal

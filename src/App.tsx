@@ -244,6 +244,7 @@ export default function App(): JSX.Element {
 					</button>
 				}
 				showModal={showModal}
+				setShowModal={setShowModal}
 			>
 				<div className="markdown" ref={modalBody}></div>
 			</Modal>
