@@ -12,18 +12,27 @@ import {
 	WrenchScrewdriverIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import {
+	KeyboardEvent,
+	MouseEvent,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import Container from "./components/utils/Container";
 import Section from "./components/utils/Section";
 import Modal from "./components/partials/Modal";
 import useMarkdown from "./hooks/useMarkdown";
+import { ModalContext } from "./contexts/ModalContext";
+import { ModalContextType } from "./@types/modal";
 
 export default function App(): JSX.Element {
+	const { setShowModal } = useContext(ModalContext) as ModalContextType;
 	const [markdownInput, setMarkdownInput] = useState(
 		localStorage.getItem("markdown") || ""
 	);
 	const [showTools, setShowTools] = useState(false);
-	const [showModal, setShowModal] = useState(false);
 	const div = useRef<HTMLDivElement>(null);
 	const textarea = useRef<HTMLTextAreaElement>(null);
 	const modalBody = useRef<HTMLDivElement>(null);
@@ -243,8 +252,6 @@ export default function App(): JSX.Element {
 						Close
 					</button>
 				}
-				showModal={showModal}
-				setShowModal={setShowModal}
 			>
 				<div className="markdown" ref={modalBody}></div>
 			</Modal>

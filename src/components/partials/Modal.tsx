@@ -1,21 +1,22 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from "react";
+import { ReactNode, useContext, useEffect, useRef } from "react";
+import { ModalContextType } from "../../@types/modal";
+import { ModalContext } from "../../contexts/ModalContext";
 import Overlay from "../utils/Overlay";
 
 interface Props {
 	children?: ReactNode;
 	header?: ReactNode;
 	footer?: ReactNode;
-	showModal: boolean;
-	setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Modal({
 	children,
 	header,
 	footer,
-	showModal,
-	setShowModal,
 }: Props): JSX.Element {
+	const { showModal, setShowModal } = useContext(
+		ModalContext
+	) as ModalContextType;
 	const overlay = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
