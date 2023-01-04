@@ -1,12 +1,8 @@
-import { ReactNode } from "react";
+import { LayoutProps } from "../../@types/props";
 import Footer from "../partials/Footer";
 import Navbar from "../partials/Navbar";
 
-interface Props {
-	children: ReactNode;
-}
-
-export default function AppLayout({ children }: Props): JSX.Element {
+export default function AppLayout({ children }: LayoutProps): JSX.Element {
 	return (
 		<div className="flex min-h-screen flex-col">
 			<Navbar />

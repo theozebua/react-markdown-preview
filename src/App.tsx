@@ -25,7 +25,7 @@ import Section from "./components/utils/Section";
 import Modal from "./components/partials/Modal";
 import useMarkdown from "./utils/useMarkdown";
 import { ModalContext } from "./contexts/ModalContext";
-import { ModalContextType } from "./@types/modal";
+import { ModalContextType } from "./@types/modal-context";
 
 export default function App(): JSX.Element {
 	const { setShowModal } = useContext(ModalContext) as ModalContextType;
