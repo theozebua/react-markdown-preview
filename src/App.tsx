@@ -66,30 +66,37 @@ export default function App(): JSX.Element {
 
 	const convert = (start: number, end: number, value: string, type: string) => {
 		let convertedValue: string = "";
+		let symbolLength: number = 0;
 
 		switch (type) {
 			case "bold":
 				convertedValue = `**${value}**`;
+				symbolLength = 2;
 				break;
 
 			case "italic":
 				convertedValue = `_${value}_`;
+				symbolLength = 1;
 				break;
 
 			case "underline":
 				convertedValue = `<ins>${value}</ins>`;
+				symbolLength = 5;
 				break;
 
 			case "strikethrough":
 				convertedValue = `~~${value}~~`;
+				symbolLength = 2;
 				break;
 
 			case "quote":
 				convertedValue = `> ${value}`;
+				symbolLength = 2;
 				break;
 
 			case "code":
 				convertedValue = `\`${value}\``;
+				symbolLength = 1;
 				break;
 
 			default:
@@ -97,12 +104,17 @@ export default function App(): JSX.Element {
 				break;
 		}
 
-		value = `${textarea.current!.value.substring(
+		const newValue = `${textarea.current!.value.substring(
 			0,
 			start
 		)}${convertedValue}${textarea.current!.value.substring(end)}`;
-		textarea.current!.value = value;
-		setMarkdownInput(value);
+		textarea.current!.value = newValue;
+		setMarkdownInput(newValue);
+		textarea.current!.setSelectionRange(
+			start + symbolLength,
+			end + symbolLength,
+			"forward"
+		);
 	};
 
 	const useTab = (e: KeyboardEvent) => {
