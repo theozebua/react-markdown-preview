@@ -12,20 +12,14 @@ import {
 	WrenchScrewdriverIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-	KeyboardEvent,
-	MouseEvent,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
+import { KeyboardEvent, useContext, useEffect, useRef, useState } from "react";
 import Container from "./components/utils/Container";
 import Section from "./components/utils/Section";
 import Modal from "./components/partials/Modal";
 import useMarkdown from "./utils/useMarkdown";
 import { ModalContext } from "./contexts/ModalContext";
 import { ModalContextType } from "./@types/modal-context";
+import { setSetmarkdownInput, setTextarea, handleTool } from "./utils/useTools";
 
 export default function App(): JSX.Element {
 	const { setShowModal } = useContext(ModalContext) as ModalContextType;
@@ -47,77 +41,10 @@ export default function App(): JSX.Element {
 		textarea.current!.style.height = `${textarea.current!.scrollHeight + 20}px`;
 	};
 
-	const useTool = (e: MouseEvent, type: string) => {
-		e.preventDefault();
-		textarea.current!.focus();
+	setTextarea(textarea);
+	setSetmarkdownInput(setMarkdownInput);
 
-		const start = textarea.current!.selectionStart;
-		const end = textarea.current!.selectionEnd;
-		let value = textarea.current!.value.substring(start, end);
-
-		if (start === end) {
-			alert("No text selected.");
-
-			return;
-		}
-
-		convert(start, end, value, type);
-	};
-
-	const convert = (start: number, end: number, value: string, type: string) => {
-		let convertedValue: string = "";
-		let symbolLength: number = 0;
-
-		switch (type) {
-			case "bold":
-				convertedValue = `**${value}**`;
-				symbolLength = 2;
-				break;
-
-			case "italic":
-				convertedValue = `_${value}_`;
-				symbolLength = 1;
-				break;
-
-			case "underline":
-				convertedValue = `<ins>${value}</ins>`;
-				symbolLength = 5;
-				break;
-
-			case "strikethrough":
-				convertedValue = `~~${value}~~`;
-				symbolLength = 2;
-				break;
-
-			case "quote":
-				convertedValue = `> ${value}`;
-				symbolLength = 2;
-				break;
-
-			case "code":
-				convertedValue = `\`${value}\``;
-				symbolLength = 1;
-				break;
-
-			default:
-				alert(`Type ${type} is unknown.`);
-				break;
-		}
-
-		const newValue = `${textarea.current!.value.substring(
-			0,
-			start
-		)}${convertedValue}${textarea.current!.value.substring(end)}`;
-		textarea.current!.value = newValue;
-		setMarkdownInput(newValue);
-		textarea.current!.setSelectionRange(
-			start + symbolLength,
-			end + symbolLength,
-			"forward"
-		);
-	};
-
-	const useTab = (e: KeyboardEvent) => {
+	const handleTab = (e: KeyboardEvent) => {
 		if (e.key === "Tab") {
 			e.preventDefault();
 			const start = textarea.current!.selectionStart;
@@ -181,7 +108,7 @@ export default function App(): JSX.Element {
 				<div className={`tools ${showTools ? "show" : "hide"}`}>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "bold")}
+						onClick={(e) => handleTool(e, "bold")}
 						data-toggle="tooltip"
 						data-title="Bold"
 					>
@@ -189,7 +116,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "italic")}
+						onClick={(e) => handleTool(e, "italic")}
 						data-toggle="tooltip"
 						data-title="Italic"
 					>
@@ -197,7 +124,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "underline")}
+						onClick={(e) => handleTool(e, "underline")}
 						data-toggle="tooltip"
 						data-title="Underline"
 					>
@@ -205,7 +132,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "strikethrough")}
+						onClick={(e) => handleTool(e, "strikethrough")}
 						data-toggle="tooltip"
 						data-title="Strikethrough"
 					>
@@ -213,7 +140,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "code")}
+						onClick={(e) => handleTool(e, "code")}
 						data-toggle="tooltip"
 						data-title="Code"
 					>
@@ -221,7 +148,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "quote")}
+						onClick={(e) => handleTool(e, "quote")}
 						data-toggle="tooltip"
 						data-title="Quote"
 					>
@@ -236,7 +163,7 @@ export default function App(): JSX.Element {
 						ref={textarea}
 						autoFocus={true}
 						onChange={(e) => setMarkdownInput(e.target.value)}
-						onKeyDown={(e) => useTab(e)}
+						onKeyDown={(e) => handleTab(e)}
 					></textarea>
 				</Section>
 				<Section>
