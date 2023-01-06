@@ -1,7 +1,8 @@
 import { Remarkable } from "remarkable";
 import hljs from "highlight.js";
+import { renderInterface } from "../@types/remarkable";
 
-export default function useMarkdown(): Remarkable {
+function remarkable(): Remarkable {
 	return new Remarkable({
 		highlight: function (str, lang) {
 			if (lang && hljs.getLanguage(lang)) {
@@ -22,3 +23,7 @@ export default function useMarkdown(): Remarkable {
 		xhtmlOut: true,
 	});
 }
+
+export const render: renderInterface = (markdown) => {
+	return remarkable().render(markdown);
+};

@@ -16,10 +16,10 @@ import { KeyboardEvent, useContext, useEffect, useRef, useState } from "react";
 import Container from "./components/utils/Container";
 import Section from "./components/utils/Section";
 import Modal from "./components/partials/Modal";
-import useMarkdown from "./utils/useMarkdown";
 import { ModalContext } from "./contexts/ModalContext";
 import { ModalContextType } from "./@types/modal-context";
-import { setSetmarkdownInput, setTextarea, handleTool } from "./utils/useTools";
+import { setSetmarkdownInput, setTextarea, handleTool } from "./helpers/tools";
+import { render } from "./helpers/markdown";
 
 export default function App(): JSX.Element {
 	const { setShowModal } = useContext(ModalContext) as ModalContextType;
@@ -30,11 +30,6 @@ export default function App(): JSX.Element {
 	const div = useRef<HTMLDivElement>(null);
 	const textarea = useRef<HTMLTextAreaElement>(null);
 	const modalBody = useRef<HTMLDivElement>(null);
-	const md = useMarkdown();
-
-	const parse = (markdown: string) => {
-		div.current!.innerHTML = md.render(markdown);
-	};
 
 	const resizeTextArea = () => {
 		textarea.current!.style.height = "auto";
@@ -61,11 +56,11 @@ export default function App(): JSX.Element {
 		const res = await fetch("/assets/markdown/guide.md");
 		const text = await res.text();
 
-		modalBody.current!.innerHTML = md.render(text);
+		modalBody.current!.innerHTML = render(text);
 	};
 
 	useEffect(() => {
-		parse(markdownInput);
+		div.current!.innerHTML = render(markdownInput);
 		resizeTextArea();
 
 		localStorage.setItem("markdown", markdownInput);
