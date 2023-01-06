@@ -20,6 +20,7 @@ import { ModalContext } from "./contexts/ModalContext";
 import { ModalContextType } from "./@types/modal-context";
 import { setSetmarkdownInput, setTextarea, handleTool } from "./helpers/tools";
 import { render } from "./helpers/markdown";
+import guide from "./assets/markdown/guide.md";
 
 export default function App(): JSX.Element {
 	const { setShowModal } = useContext(ModalContext) as ModalContextType;
@@ -53,7 +54,7 @@ export default function App(): JSX.Element {
 	};
 
 	const fetchMarkdownGuide = async () => {
-		const res = await fetch("/assets/markdown/guide.md");
+		const res = await fetch(guide);
 		const text = await res.text();
 
 		modalBody.current!.innerHTML = render(text);
