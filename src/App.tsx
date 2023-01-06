@@ -12,91 +12,35 @@ import {
 	WrenchScrewdriverIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useContext, useEffect, useRef, useState } from "react";
 import Container from "./components/utils/Container";
 import Section from "./components/utils/Section";
 import Modal from "./components/partials/Modal";
-import useMarkdown from "./hooks/useMarkdown";
+import { ModalContext } from "./contexts/ModalContext";
+import { ModalContextType } from "./@types/modal-context";
+import { setSetmarkdownInput, setTextarea, handleTool } from "./helpers/tools";
+import { render } from "./helpers/markdown";
+import guide from "./assets/markdown/guide.md";
 
 export default function App(): JSX.Element {
+	const { setShowModal } = useContext(ModalContext) as ModalContextType;
 	const [markdownInput, setMarkdownInput] = useState(
 		localStorage.getItem("markdown") || ""
 	);
 	const [showTools, setShowTools] = useState(false);
-	const [showModal, setShowModal] = useState(false);
 	const div = useRef<HTMLDivElement>(null);
 	const textarea = useRef<HTMLTextAreaElement>(null);
 	const modalBody = useRef<HTMLDivElement>(null);
-	const md = useMarkdown();
-
-	const parse = (markdown: string) => {
-		div.current!.innerHTML = md.render(markdown);
-	};
 
 	const resizeTextArea = () => {
 		textarea.current!.style.height = "auto";
 		textarea.current!.style.height = `${textarea.current!.scrollHeight + 20}px`;
 	};
 
-	const useTool = (e: MouseEvent, type: string) => {
-		e.preventDefault();
-		textarea.current!.focus();
+	setTextarea(textarea);
+	setSetmarkdownInput(setMarkdownInput);
 
-		const start = textarea.current!.selectionStart;
-		const end = textarea.current!.selectionEnd;
-		let value = textarea.current!.value.substring(start, end);
-
-		if (start === end) {
-			alert("No text selected.");
-
-			return;
-		}
-
-		convert(start, end, value, type);
-	};
-
-	const convert = (start: number, end: number, value: string, type: string) => {
-		let convertedValue: string = "";
-
-		switch (type) {
-			case "bold":
-				convertedValue = `**${value}**`;
-				break;
-
-			case "italic":
-				convertedValue = `_${value}_`;
-				break;
-
-			case "underline":
-				convertedValue = `<ins>${value}</ins>`;
-				break;
-
-			case "strikethrough":
-				convertedValue = `~~${value}~~`;
-				break;
-
-			case "quote":
-				convertedValue = `> ${value}`;
-				break;
-
-			case "code":
-				convertedValue = `\`${value}\``;
-				break;
-
-			default:
-				alert(`Type ${type} is unknown.`);
-				break;
-		}
-
-		value = `${textarea.current!.value.substring(
-			0,
-			start
-		)}${convertedValue}${textarea.current!.value.substring(end)}`;
-		textarea.current!.value = value;
-		setMarkdownInput(value);
-	};
-
-	const useTab = (e: KeyboardEvent) => {
+	const handleTab = (e: KeyboardEvent) => {
 		if (e.key === "Tab") {
 			e.preventDefault();
 			const start = textarea.current!.selectionStart;
@@ -110,14 +54,14 @@ export default function App(): JSX.Element {
 	};
 
 	const fetchMarkdownGuide = async () => {
-		const res = await fetch("/assets/markdown/guide.md");
+		const res = await fetch(guide);
 		const text = await res.text();
 
-		modalBody.current!.innerHTML = md.render(text);
+		modalBody.current!.innerHTML = render(text);
 	};
 
 	useEffect(() => {
-		parse(markdownInput);
+		div.current!.innerHTML = render(markdownInput);
 		resizeTextArea();
 
 		localStorage.setItem("markdown", markdownInput);
@@ -160,7 +104,7 @@ export default function App(): JSX.Element {
 				<div className={`tools ${showTools ? "show" : "hide"}`}>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "bold")}
+						onClick={(e) => handleTool(e, "bold")}
 						data-toggle="tooltip"
 						data-title="Bold"
 					>
@@ -168,7 +112,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "italic")}
+						onClick={(e) => handleTool(e, "italic")}
 						data-toggle="tooltip"
 						data-title="Italic"
 					>
@@ -176,7 +120,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "underline")}
+						onClick={(e) => handleTool(e, "underline")}
 						data-toggle="tooltip"
 						data-title="Underline"
 					>
@@ -184,7 +128,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "strikethrough")}
+						onClick={(e) => handleTool(e, "strikethrough")}
 						data-toggle="tooltip"
 						data-title="Strikethrough"
 					>
@@ -192,7 +136,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "code")}
+						onClick={(e) => handleTool(e, "code")}
 						data-toggle="tooltip"
 						data-title="Code"
 					>
@@ -200,7 +144,7 @@ export default function App(): JSX.Element {
 					</button>
 					<button
 						className="btn-tools"
-						onClick={(e) => useTool(e, "quote")}
+						onClick={(e) => handleTool(e, "quote")}
 						data-toggle="tooltip"
 						data-title="Quote"
 					>
@@ -215,7 +159,7 @@ export default function App(): JSX.Element {
 						ref={textarea}
 						autoFocus={true}
 						onChange={(e) => setMarkdownInput(e.target.value)}
-						onKeyDown={(e) => useTab(e)}
+						onKeyDown={(e) => handleTab(e)}
 					></textarea>
 				</Section>
 				<Section>
@@ -243,7 +187,6 @@ export default function App(): JSX.Element {
 						Close
 					</button>
 				}
-				showModal={showModal}
 			>
 				<div className="markdown" ref={modalBody}></div>
 			</Modal>
