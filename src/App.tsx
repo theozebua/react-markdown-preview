@@ -158,6 +158,7 @@ export default function App(): JSX.Element {
 						className="form-textarea w-full resize-none whitespace-nowrap rounded border-gray-300 focus:border-gray-400 focus:ring-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:focus:border-gray-600 dark:focus:ring-gray-600 lg:min-h-screen"
 						ref={textarea}
 						autoFocus={true}
+						placeholder="# Write your markdown..."
 						onChange={(e) => setMarkdownInput(e.target.value)}
 						onKeyDown={(e) => handleTab(e)}
 					></textarea>
