@@ -13,11 +13,11 @@ export default function Footer(): JSX.Element {
 						Powered by&nbsp;
 						<a
 							className="font-bold"
-							href="https://theozebua.com"
+							href="https://theozebua.github.io"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							theozebua.com
+							theozebua.github.io
 						</a>
 					</span>
 				</div>
